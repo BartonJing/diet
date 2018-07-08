@@ -80,7 +80,7 @@ public class DietBot extends BaseBot {
     protected Response onInent(IntentRequest intentRequest) {
 
         // 判断NLU解析的意图名称是否匹配
-        if ("myself".equals(intentRequest.getIntentName())) {
+        if (INTENT.equals(intentRequest.getIntentName())) {
             // 判断NLU解析解析后是否存在这个槽位
             if (getSlot("monthlysalary") == null) {
                 // 询问月薪槽位
