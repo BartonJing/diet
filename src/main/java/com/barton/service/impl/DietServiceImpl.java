@@ -8,7 +8,6 @@ import com.baidu.dueros.data.response.OutputSpeech;
 import com.baidu.dueros.data.response.Reprompt;
 import com.baidu.dueros.data.response.card.TextCard;
 import com.baidu.dueros.model.Response;
-import com.barton.service.DietService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
