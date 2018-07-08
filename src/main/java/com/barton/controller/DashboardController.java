@@ -3,15 +3,11 @@ package com.barton.controller;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import com.barton.service.DietBot;
-import com.barton.service.DietService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Action;
 import java.io.IOException;
 
 /**
