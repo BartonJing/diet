@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/dashboard/fragment/header::header"/>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app" v-cloak class="container">
+        <el-row class="breadcrumb">
+            <el-col :sapn="24">
+                <el-breadcrumb separator-class="el-icon-arrow-right">
+                    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                    <el-breadcrumb-item>活动管理</el-breadcrumb-item>
+                    <el-breadcrumb-item>活动添加</el-breadcrumb-item>
+                </el-breadcrumb>
+            </el-col>
+        </el-row>
+        <el-form ref="form"  label-width="80px" :model="activity">
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="活动名称"
+                                  prop="title"
+                                  :rules="[{ required: true, message: '请输入活动名称', trigger: 'blur' }]">
+                        <el-input type="text"
+                                  placeholder="请输入名称"
+                                  v-model="activity.title"></el-input>
+                    </el-form-item>
+                </el-col>
+
+                <el-col :span="24">
+                    <el-form-item label="活动时间"
+                                  prop="dateRange"
+                                  :rules="[{ required: true, message: '请输入活动时间', trigger: 'blur' }]">
+                        <el-date-picker
+                                v-model="activity.dateRange"
+                                type="datetimerange"
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                :default-time="['8:00:00', '18:00:00']"
+                                @change="dateRange">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                    <el-form-item label="地点"
+                                  prop="place"
+                                  :rules="[{ required: true, message: '请输入地点', trigger: 'blur' }]">
+                        <el-input type="text"
+                                  placeholder="请输入活动地点"
+                                  v-model="activity.place"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                    <el-form-item label="主持人"
+                                  prop="hoster"
+                                  :rules="[{ required: true, message: '请输入主持人', trigger: 'blur' }]">
+                        <el-input type="text"
+                                  placeholder="请输入活动主持人"
+                                  v-model="activity.hoster"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                    <el-form-item label="内容"
+                                  prop="content"
+                                  :rules="[{ required: true, message: '请输入内容', trigger: 'blur' }]">
+                        <el-input type="textarea"
+                                  :autosize="{ minRows: 2, maxRows: 4}"
+                                  placeholder="请输入内容"
+                                  v-model="activity.content"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="图片">
+                        <el-upload
+                                action="/dashboard/media/uploadSingleFile"
+                                list-type="picture-card"
+                                :before-upload="beforeAvatarUpload"
+                                :on-preview="handlePictureCardPreview"
+                                :on-remove="handleRemove"
+                                :file-list="image.fileList"
+                                :data="image.fileData"
+                                :on-success="uploadSuccess">
+                            <i class="el-icon-plus"></i>
+                        </el-upload>
+                        <el-dialog :visible.sync="dialogVisible">
+                            <img width="100%" :src="dialogImageUrl" alt="">
+                        </el-dialog>
+                    </el-form-item>
+
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="视频">
+                        <!--<el-upload
+                                action="/dashboard/media/uploadSingleFile"
+                                list-type="picture-card"
+                                :before-upload="beforeVideoUpload"
+                                :on-preview="handlePictureCardPreview"
+                                :on-remove="handleRemove"
+                                :file-list="image.fileList"
+                                :data="video.fileData"
+                                :on-success="uploadSuccess">
+                            <i class="el-icon-plus"></i>
+                        </el-upload>
+                        <el-dialog :visible.sync="dialogVisible">
+                            <img width="100%" :src="dialogImageUrl" alt="">
+                        </el-dialog>-->
+                    </el-form-item>
+
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="10" :offset="10">
+                    <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+                    <el-button>取消</el-button>
+                </el-col>
+            </el-row>
+
+        </el-form>
+        <el-row>
+
+        </el-row>
+
+    </div>
+    <script th:inline="javascript">
+        var activity = [[${activity}]]
+        var app = new Vue({
+            el: "#app",
+            data: {
+                activity:activity,
+                dialogImageUrl: '',
+                dialogVisible: false,
+                image:{
+                    fileList:[],
+                    fileData:{type:"0"},
+                },
+                video:{
+                    fileList:[],
+                    fileData:{type:"1"},
+                }
+
+            },
+            created:function () {
+                Vue.set(this.activity,"dateRange",null)
+            },
+            methods: {
+                dateRange:function (value) {
+                    this.activity.dateStart = value[0];
+                    this.activity.dateEnd = value[1];
+                },
+                onSubmit:function (formName) {
+                    var self = this;
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            self.activity.fileIds = [];
+                            //处理图片
+                            if(self.image.fileList.length > 0){
+                                for(var i=0;i<self.image.fileList.length;i++){
+                                    self.activity.fileIds.push(self.image.fileList[i].fileId);
+                                }
+                            }
+                            //处理视频
+                            if(self.video.fileList.length > 0){
+                                for(var i=0;i<self.video.fileList.length;i++){
+                                    self.activity.fileIds.push(self.video.fileList[i].fileId);
+                                }
+                            }
+                            self.loading = true;
+                            $.ajax({
+                                url: "/activity/doAdd",
+                                type: "POST",
+                                dataType : 'json',
+                                contentType : 'application/json;charset=UTF-8', //contentType很重要
+                                async: true,
+                                data: $.toJSON(self.activity),
+                                success: function (res) {
+                                    if(res.status == 0){
+                                        self.$message({
+                                            showClose: true,
+                                            message: "保存成功!",
+                                            type: 'success'
+                                        });
+
+                                    }else{
+                                        self.$message({
+                                            showClose: true,
+                                            message: "保存失败!",
+                                            type: 'error'
+                                        });
+                                    }
+                                    self.loading = true;
+                                },
+                                error:function (res) {
+                                    self.$message({
+                                        showClose: true,
+                                        message: res,
+                                        type: 'error'
+                                    });
+                                }
+                            });
+                        } else {
+                            self.$message({
+                            showClose: true,
+                            message: '校验未通过',
+                            type: 'error'
+                        });
+
+                            return false;
+                        }
+                    });
+
+
+
+
+
+                },
+                handlePictureCardPreview:function(file) {
+                    this.dialogImageUrl = file.url;
+                    this.dialogVisible = true;
+                },
+                beforeAvatarUpload:function(file) {
+                    if(file.type === 'image/jpeg' || file.type === 'image/png'){
+                        return true;
+                    }
+                    this.$message({
+                        showClose: true,
+                        message: "只允许上传jpg/jpeg/png格式文件",
+                        type: 'error'
+                    });
+                    return false;
+                },
+                uploadSuccess:function (response, file, fileList) {
+                    var _this = this;
+                    if(response.status == 0){
+                        var data = response.data;
+                        _this.image.fileList.push(
+                            {name:data.extend3,fileId:data.id,url:'/dashboard/media/showFile?fileId='+data.id}
+                        );
+                    }
+                },
+                handleRemove:function (file, fileList) {
+                    var self = this;
+                    if(file.status == 'success'){
+                        $.ajax({
+                            url: "/dashboard/media/deleteByFileId",
+                            type: "get",
+                            dataType: "json",
+                            async: true,
+                            data: {
+                                id:file.fileId
+                            },
+                            success: function (res) {
+                                if(res.status == 0){
+                                    self.$message({
+                                        showClose: true,
+                                        message: res.msg,
+                                        type: 'success'
+                                    });
+                                    //删除
+                                    self.deleteArr(self.image.fileList,file.fileId);
+                                }else{
+                                    self.$message({
+                                        showClose: true,
+                                        message: res.msg,
+                                        type: 'error'
+                                    });
+                                }
+                            }
+                        });
+                    }else{
+                        self.$message({
+                            showClose: true,
+                            message: '删除失败',
+                            type: 'error'
+                        });
+                    }
+                },
+                deleteArr:function (list,fileId) {
+                    if(list == null || list.length <= 0){
+                        return;
+                    }
+                    for(var i = 0;i < list.length; i++){
+                        if(fileId == list[i].fileId){
+                            list.splice(i, 1);
+                        }
+
+                    }
+                }
+
+            }
+        });
+    </script>
+</body>
+</html>

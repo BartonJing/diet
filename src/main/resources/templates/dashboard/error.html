@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error Pages</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+
+    </style>
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/module/commons/css/publicStyle.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/module/commons/css/main.css}"/>-->
+</head>
+     <!--404错误提示页面-->
+<body>
+    <div class="box">
+        <div class="hint">
+            <img th:src="@{/module/images/hint.png}" alt="" class="hint-imgs">
+        </div>
+        <div class="error-hint">
+            <p class="state" th:text="'' + ${status}"/>
+            <p class="" th:text="'访问路径:' + ${path}"/>
+            <p class="errorPrompt" th:text="'错误类型:' + ${error}"/>
+            <p class="errorPrompt" th:text="'错误信息:' + ${message}"/>
+            <div>
+                <p class="errorPrompt-two" th:text="'异常类:' + ${exception}"/>
+                <p class="error-time" th:text="'时间:' + ${timestamp}"/>
+            </div>
+        </div>
+        <div class="error-button" id="error-button">
+            <a href="/dashboard" class="return" >返回首页</a>
+        </div>
+    </div>
+</body>
+</html>

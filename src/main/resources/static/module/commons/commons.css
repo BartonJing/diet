@@ -1,0 +1,7 @@
+.container{
+    padding: 10px;
+}
+.container .breadcrumb{
+    /*padding-top: 10px;*/
+    height: 30px;
+}

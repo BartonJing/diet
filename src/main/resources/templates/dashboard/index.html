@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/frame/vue/index.css}">
+    <script th:src="@{/frame/vue/vue.js}"></script>
+    <script th:src="@{/frame/vue/index.js}"></script>
+    <script th:src="@{/frame/jquery/jquery3.3.1.min.js}"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{
+            border:0;
+            margin: 0;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .container {
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            width: 100%;
+        }
+        .container .top {
+            height: 60px;
+            line-height: 60px;
+            /*background: #0000ff;*/
+            color: #fff;
+        }
+        .container .content-open {
+            /*background: #8eff36;*/
+            color: #fff;
+            bottom: 0;
+            /*overflow-y: scroll;
+            padding: 20px;*/
+            position: absolute;
+            top:60px;
+            bottom: 0;
+            right: 0;
+            left: 230px;
+        }
+        .container .content-close {
+            /*background: #8eff36;*/
+            color: #fff;
+            bottom: 0;
+            /*overflow-y: scroll;
+            padding: 20px;*/
+            position: absolute;
+            top:60px;
+            bottom: 0;
+            right: 0;
+            left: 60px;
+        }
+        .left-close{
+            background-color: #4caf50;
+            position: absolute;
+            flex:0 0 230px;
+            width: 60px;
+            bottom: 0;
+            height: 100%;
+        }
+        .left-open{
+            background-color: #4caf50;
+            position: absolute;
+            flex:0 0 230px;
+            width: 230px;
+            bottom: 0;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak >
+        <el-row class="container">
+            <div :class="isCollapse?'left-close':'left-open'">
+                <el-menu
+                        class="el-menu-vertical-demo"
+                        default-active="2"
+                        @open="handleOpen"
+                        @close="handleClose"
+                        background-color="#545c64"
+                        text-color="#fff"
+                        active-text-color="#ffd04b"
+                        :collapse="isCollapse"
+                        @select="handleSelect"
+                        style="width: 100%;height: 100%;">
+                    <el-menu-item index="1">
+                        <i class="el-icon-location"></i>
+                        <span>主页</span>
+                    </el-menu-item>
+                    <el-menu-item index="2">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">活动管理</span>
+                    </el-menu-item>
+                    <el-menu-item index="3">
+                        <i class="el-icon-document"></i>
+                        <span slot="title">文章管理</span>
+                    </el-menu-item>
+                    <el-menu-item index="4">
+                        <i class="el-icon-setting"></i>
+                        <span slot="title">导航四</span>
+                    </el-menu-item>
+                </el-menu>
+
+            </div>
+            <div class="main">
+                <div class="top">
+                    <el-button  icon="el-icon-menu" circle style="margin-left: 75px" @click="isCollapseMethod" v-if="isCollapse"></el-button>
+                    <el-button  icon="el-icon-menu" circle style="margin-left: 235px" @click="isCollapseMethod" v-else></el-button>
+                </div>
+                <div :class="isCollapse?'content-close':'content-open'">
+                    <iframe id="iframe" src="/main" width="100%" height="99.5%"  frameborder="0" scrolling="auto">
+                    </iframe>
+                </div>
+            </div>
+        </el-row>
+    </div>
+    <script th:inline="javascript">
+        var app = new Vue({
+            el: "#app",
+            data: {
+                isCollapse:false,
+                menus:{
+                    1:'/main',
+                    2:'/activity/toView',
+                    3:'/article/toView'
+                },
+            },
+            methods: {
+                handleOpen:function(key, keyPath) {
+                    //console.log(key, keyPath);
+                },
+                handleClose:function(key, keyPath) {
+                    //console.log(key, keyPath);
+                },
+                handleSelect:function(key, keyPath) {
+                    $("#iframe").attr('src',this.menus[key])
+                },
+                isCollapseMethod:function () {
+                    if(this.isCollapse){
+                        this.isCollapse = false;
+                        return;
+                    }
+                    this.isCollapse = true;
+                }
+
+            }
+        });
+    </script>
+</body>
+
+</html>

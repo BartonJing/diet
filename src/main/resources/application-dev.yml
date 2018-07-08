@@ -1,0 +1,52 @@
+server:
+  port: 8888
+log:
+  path: /home/barton/upload
+  level: info
+upload:
+  path: /home/barton/upload
+
+spring:
+  thymeleaf:
+    cache: false
+    check-template: true
+    enabled: true
+    encoding: UTF-8
+    prefix: classpath:/templates
+    mode: HTML5
+  aop:
+    auto: true
+    proxy-target-class: true
+
+  datasource:
+    initialize: false #false时不进行数据库表结构和数据初始化
+    username: root
+    password: root
+    url: jdbc:mysql://106.12.9.75:3306/part?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    #数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    #连接池配置
+    driverClassName: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+      enabled: true
+
