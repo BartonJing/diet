@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.barton.dao.ShopMapper" >
+  <resultMap id="BaseResultMap" type="com.barton.domain.entity.Shop" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="reference_id" property="referenceId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="field_1" property="field1" jdbcType="VARCHAR" />
+    <result column="field_2" property="field2" jdbcType="VARCHAR" />
+    <result column="field_3" property="field3" jdbcType="VARCHAR" />
+    <result column="field_4" property="field4" jdbcType="VARCHAR" />
+    <result column="field_5" property="field5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, url, reference_id, name, field_1, field_2, field_3, field_4, field_5
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_shop
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from b_shop
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.barton.domain.entity.Shop" >
+    insert into b_shop (id, url, reference_id, 
+      name, field_1, field_2, 
+      field_3, field_4, field_5
+      )
+    values (#{id,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{referenceId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{field1,jdbcType=VARCHAR}, #{field2,jdbcType=VARCHAR}, 
+      #{field3,jdbcType=VARCHAR}, #{field4,jdbcType=VARCHAR}, #{field5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.barton.domain.entity.Shop" >
+    insert into b_shop
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="referenceId != null" >
+        reference_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="field1 != null" >
+        field_1,
+      </if>
+      <if test="field2 != null" >
+        field_2,
+      </if>
+      <if test="field3 != null" >
+        field_3,
+      </if>
+      <if test="field4 != null" >
+        field_4,
+      </if>
+      <if test="field5 != null" >
+        field_5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="referenceId != null" >
+        #{referenceId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        #{field4,jdbcType=VARCHAR},
+      </if>
+      <if test="field5 != null" >
+        #{field5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.barton.domain.entity.Shop" >
+    update b_shop
+    <set >
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="referenceId != null" >
+        reference_id = #{referenceId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        field_1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        field_2 = #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        field_3 = #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        field_4 = #{field4,jdbcType=VARCHAR},
+      </if>
+      <if test="field5 != null" >
+        field_5 = #{field5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.barton.domain.entity.Shop" >
+    update b_shop
+    set url = #{url,jdbcType=VARCHAR},
+      reference_id = #{referenceId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      field_1 = #{field1,jdbcType=VARCHAR},
+      field_2 = #{field2,jdbcType=VARCHAR},
+      field_3 = #{field3,jdbcType=VARCHAR},
+      field_4 = #{field4,jdbcType=VARCHAR},
+      field_5 = #{field5,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
