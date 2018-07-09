@@ -21,7 +21,7 @@ public class MyBatisGeneratorExecutor {
         try {
             List<String> warnings = new ArrayList<>();
             boolean overwrite = true;
-            File configFile = new File("D:\\workspace\\party\\src\\main\\resources\\generatorConfig.xml");
+            File configFile = new File("/home/barton/workspace//diet/src/main/resources/generatorConfig.xml");
             ConfigurationParser cp = new ConfigurationParser(warnings);
             Configuration config = cp.parseConfiguration(configFile);
             DefaultShellCallback callback = new DefaultShellCallback(overwrite);
