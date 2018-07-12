@@ -11,8 +11,8 @@ import com.baidu.dueros.model.Response;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-
 public class DietBot extends BaseBot {
+
     //意图
     public final static String INTENT = "diet_recommendation";
     //槽位-身体状态
@@ -21,14 +21,12 @@ public class DietBot extends BaseBot {
     public final static String SLOT_BODY_LIKES = "sys_like";
     //槽位-位置
     public final static String SLOT_BODY_NAVGATION = "sys.location-navigation";
-
     /**
      * 重写BaseBot构造方法
      */
     public DietBot(HttpServletRequest request) throws IOException {
         super(request);
     }
-
     /**
      * 重写onLaunch方法，处理onLaunch对话事件
      */

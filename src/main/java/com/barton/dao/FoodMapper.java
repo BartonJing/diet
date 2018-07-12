@@ -2,6 +2,8 @@ package com.barton.dao;
 
 import com.barton.domain.entity.Food;
 
+import java.util.List;
+
 public interface FoodMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface FoodMapper {
     int updateByPrimaryKeySelective(Food record);
 
     int updateByPrimaryKey(Food record);
+
+    List<Food> selectByType(List<String> types);
 }
