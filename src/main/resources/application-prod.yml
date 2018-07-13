@@ -1,10 +1,10 @@
 server:
   port: 8889
 log:
-  path: /home/barton/upload
+  path: /home/barton/app
   level: info
 upload:
-  path: /home/barton/upload
+  path: /home/barton/app
 
 spring:
   thymeleaf:
