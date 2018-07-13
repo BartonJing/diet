@@ -24,7 +24,7 @@ public class DashboardController {
     BeanFactory beanFactory;
 
 
-    @PostMapping(value = {"/dashboard"})
+    @PostMapping(value = {"/diet"})
     public void index(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 创建Bot
         DietBot bot = new DietBot(request);
